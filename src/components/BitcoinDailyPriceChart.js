@@ -20,7 +20,7 @@ function BitcoinDailyPriceChart() {
         <p className='lg:text-3xl'>${bitcoinPrice && millify(bitcoinPrice)}</p>
         <p>{convertUnixTimeStampToReadableDate(time)}</p>
       </div>
-      <div className='bg-gray-800 p-4 rounded-xl my-4 mb-0 lg:mb-4 lg:my-0'>
+      <div className='bg-gray-800 px-1 py-2 sm:p-4 rounded-xl my-4 mb-0 lg:mb-4 lg:my-0'>
         <Line
           data={bitcoinChartData}
           options={{
