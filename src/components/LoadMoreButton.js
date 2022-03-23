@@ -5,7 +5,7 @@ function LoadMoreButton() {
   const { showMoreCoins } = useGlobalContext()
   return (
     <button
-      className='bg-gray-700 py-2 px-4 rounded-xl hover:scale-125'
+      className='bg-gray-800 py-2 px-4 rounded-xl hover:scale-125'
       onClick={showMoreCoins}
     >
       Show More

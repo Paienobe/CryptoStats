@@ -24,7 +24,7 @@ function GlobalMarketData() {
           <span className='font-medium'>Total Market Cap:</span> $
           {globalMarketData?.data?.total_market_cap.usd &&
             millify(globalMarketData?.data?.total_market_cap.usd, {
-              precision: 2,
+              precision: 3,
             })}
           <span
             className={`${
