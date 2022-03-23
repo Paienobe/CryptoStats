@@ -7,8 +7,8 @@ function CoinListContainer() {
   const { myData, visibleCurrencies } = useGlobalContext()
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='coin-list-container my-2 p-4 rounded-lg flex flex-col flex-wrap sm:flex-row sm:px-0 '>
+    <div className='flex flex-col items-center bg-gray-700 rounded-3xl mt-6'>
+      <div className='coin-list-container my-2 py-0 p-4 rounded-lg flex flex-col flex-wrap sm:flex-row sm:px-0 '>
         {myData.slice(0, visibleCurrencies).map((data) => {
           return <CoinCard key={data.symbol} {...data} />
         })}

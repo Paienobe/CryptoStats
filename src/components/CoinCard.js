@@ -14,9 +14,6 @@ function Coinrow({
   market_cap,
   circulating_supply,
 }) {
-  if (price_change_percentage_1h_in_currency.toString().includes('-')) {
-    console.log(price_change_percentage_1h_in_currency)
-  }
   return (
     <Link
       to={`/coin/${id}`}
