@@ -16,6 +16,14 @@ const AppProvider = ({ children }) => {
     datasets: [],
   })
   const [visibleCurrencies, setVisibleCurrencies] = useState(20)
+  const [bitcoinChartData, setBitcoinChartData] = useState({
+    labels: [],
+    datasets: [],
+  })
+  const [bitcoinVolumeChartData, setBitcoinVolumeChartData] = useState({
+    labels: [],
+    datasets: [],
+  })
 
   const url =
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024h%2C%207d%2C%2014d%2C%2030d%2C%20200d%2C%201y'
@@ -37,15 +45,19 @@ const AppProvider = ({ children }) => {
     console.log(data)
   }
 
+  const convertUnixTimeStampToReadableDate = (timeStamp) => {
+    const unix = timeStamp
+    const dateObject = new Date(unix)
+    const readableDate = dateObject.toLocaleDateString()
+    return readableDate
+  }
+
   const fetchDataForChart = async (url) => {
     const response = await fetch(url)
     const data = await response.json()
 
     const timeOfPriceChange = data.prices.map((item) => {
-      const unix = item[0]
-      const dateObject = new Date(unix)
-      const readableDate = dateObject.toLocaleDateString()
-      return readableDate
+      return convertUnixTimeStampToReadableDate(item[0])
     })
     setChartData({
       labels: timeOfPriceChange,
@@ -88,12 +100,57 @@ const AppProvider = ({ children }) => {
     setVisibleCurrencies(visibleCurrencies + 20)
   }
 
-  useEffect(() => {
-    fetchAllCoins(url)
-  }, [])
+  const fetchDailyBitCoinData = async () => {
+    const response = await fetch(
+      'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=180&interval=daily'
+    )
+    const data = await response.json()
+
+    const timeOfPriceChange = data.prices.map((item) => {
+      return convertUnixTimeStampToReadableDate(item[0])
+    })
+
+    const timeOfVolumeChange = data.total_volumes.map((item) => {
+      return convertUnixTimeStampToReadableDate(item[0])
+    })
+
+    setBitcoinChartData({
+      labels: timeOfPriceChange,
+      datasets: [
+        {
+          label: '',
+          data: data?.prices?.map((data) => data[1]),
+          backgroundColor: ['#004f30'],
+          borderColor: '#009e60',
+          borderWidth: 3,
+          fill: true,
+          display: false,
+        },
+      ],
+    })
+
+    setBitcoinVolumeChartData({
+      labels: timeOfPriceChange,
+      datasets: [
+        {
+          label: '',
+          data: data?.total_volumes?.map((data) => data[1]),
+          backgroundColor: ['#4188ff'],
+          borderColor: '#4188ff',
+          borderWidth: 3,
+          fill: true,
+          display: false,
+          barThickness: 5,
+          borderRadius: 5,
+        },
+      ],
+    })
+  }
 
   useEffect(() => {
+    fetchAllCoins(url)
     fetchGlobalMarketData()
+    fetchDailyBitCoinData()
   }, [])
 
   return (
@@ -109,6 +166,8 @@ const AppProvider = ({ children }) => {
         searchedCoins,
         isSearching,
         visibleCurrencies,
+        bitcoinChartData,
+        bitcoinVolumeChartData,
         setSearchInput,
         setIsSearching,
         SearchForACoin,
@@ -116,6 +175,8 @@ const AppProvider = ({ children }) => {
         fetchDataForChart,
         setChartTime,
         showMoreCoins,
+        fetchDailyBitCoinData,
+        convertUnixTimeStampToReadableDate,
       }}
     >
       {children}
