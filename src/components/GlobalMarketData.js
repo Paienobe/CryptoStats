@@ -5,10 +5,6 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 
 function GlobalMarketData() {
   const { globalMarketData } = useGlobalContext()
-  console.log(globalMarketData?.data)
-  console.log(
-    globalMarketData?.data?.market_cap_change_percentage_24h_usd.toString()[0]
-  )
 
   return (
     <div className='mt-24 p-2 mx-auto text-xs flex items-center justify-center lg:w-2/3'>
