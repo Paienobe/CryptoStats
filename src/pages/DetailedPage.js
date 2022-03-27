@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useGlobalContext } from '../context'
-import LabelIcon from '@material-ui/icons/Label'
 import CoinLogoCard from '../components/CoinLogoCard'
 import PriceDataCard from '../components/PriceDataCard'
 import MarketDataCard from '../components/MarketDataCard'
@@ -9,7 +8,6 @@ import DescriptionHolder from '../components/DescriptionHolder'
 import CoinChart from '../components/CoinChart'
 import ChartFilter from '../components/ChartFilter'
 import Loading from '../components/Loading'
-import CoinHomePageButton from '../components/CoinHomePageButton'
 
 function DetailedPage() {
   const {
@@ -54,7 +52,7 @@ function DetailedPage() {
 
       <DescriptionHolder {...infoPageData} />
 
-      <CoinHomePageButton {...infoPageData} />
+      {/* <CoinHomePageButton {...infoPageData} /> */}
     </div>
   )
 }

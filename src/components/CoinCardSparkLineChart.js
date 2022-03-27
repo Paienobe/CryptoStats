@@ -4,8 +4,6 @@ import { Chart as ChartJs } from 'chart.js/auto'
 import { useGlobalContext } from '../context'
 
 function CoinCardSparkLineChart({ sparkLineData, sparkLineStats }) {
-  console.log(sparkLineStats)
-
   return (
     <Line
       data={{

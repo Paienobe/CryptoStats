@@ -24,6 +24,7 @@ const AppProvider = ({ children }) => {
     labels: [],
     datasets: [],
   })
+  const [showMenu, setShowMenu] = useState(false)
 
   const url =
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d'
@@ -148,6 +149,10 @@ const AppProvider = ({ children }) => {
     })
   }
 
+  const displayMobileMenu = () => {
+    setShowMenu(!showMenu)
+  }
+
   useEffect(() => {
     fetchAllCoins(url)
     fetchGlobalMarketData()
@@ -169,6 +174,8 @@ const AppProvider = ({ children }) => {
         visibleCurrencies,
         bitcoinChartData,
         bitcoinVolumeChartData,
+        showMenu,
+        displayMobileMenu,
         setSearchInput,
         setIsSearching,
         SearchForACoin,
