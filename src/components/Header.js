@@ -6,8 +6,14 @@ import SearchResults from './SearchResults'
 import MenuIcon from '@material-ui/icons/Menu'
 
 function Header() {
-  const { searchInput, SearchForACoin, searchedCoins, isSearching } =
-    useGlobalContext()
+  const {
+    searchInput,
+    SearchForACoin,
+    searchedCoins,
+    isSearching,
+    showMenu,
+    displayMobileMenu,
+  } = useGlobalContext()
 
   return (
     <header className=' p-4 bg-gray-900 text-gray-100 flex flex-wrap items-center justify-between lg:px-10 lg:max-w-screen-2xl m-auto fixed left-0 right-0 z-20'>
@@ -18,7 +24,19 @@ function Header() {
         </h1>
       </Link>
 
-      <button className='lg:hidden'>
+      {showMenu && (
+        <div className='text-right bg-gray-700 p-4 absolute right-4 top-14 sm:w-1/5 text-xl z-20 border-2 border-gray-100 border-opacity-20'>
+          <Link to='/portfolio' onClick={displayMobileMenu}>
+            <p className='py-2'>Portfolio</p>
+          </Link>
+          <hr />
+          <Link to='/' onClick={displayMobileMenu}>
+            <p className='py-2'>Coins</p>
+          </Link>
+        </div>
+      )}
+
+      <button className='lg:hidden' onClick={displayMobileMenu}>
         <MenuIcon />
       </button>
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function SearchResults({ coins }) {
   const { setIsSearching, setSearchInput } = useGlobalContext()
   return (
-    <div className='font-xs absolute top-20 right-5 z-10 bg-gray-700 h-auto max-h-60 w-2/3 overflow-y-scroll p-2 rounded-lg sm:w-1/2 lg:w-1/3 lg:right-10'>
+    <div className='font-xs absolute top-28 right-4 z-10 bg-gray-700 h-auto max-h-60 w-2/3 overflow-y-scroll p-2 rounded-lg sm:w-1/2 lg:w-1/3 lg:right-10'>
       {coins?.map((coin) => {
         return (
           <Link
