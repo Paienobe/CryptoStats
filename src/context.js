@@ -150,13 +150,33 @@ const AppProvider = ({ children }) => {
   }
 
   const displayMobileMenu = () => {
-    setShowMenu(!showMenu)
+    if (!window.innerWidth >= 1024) {
+      setShowMenu(!showMenu)
+    } else {
+      setShowMenu(!showMenu)
+    }
   }
 
   useEffect(() => {
     fetchAllCoins(url)
     fetchGlobalMarketData()
     fetchDailyBitCoinData()
+  }, [])
+
+  useEffect(() => {
+    if (window.innerWidth >= 1024) {
+      setShowMenu(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024) {
+        setShowMenu(true)
+      } else {
+        setShowMenu(false)
+      }
+    })
   }, [])
 
   return (

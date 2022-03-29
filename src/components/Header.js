@@ -25,13 +25,15 @@ function Header() {
       </Link>
 
       {showMenu && (
-        <div className='text-right bg-gray-700 p-4 absolute right-4 top-14 sm:w-1/5 text-xl z-20 border-2 border-gray-100 border-opacity-20'>
+        <div className='text-right bg-gray-700 p-4 absolute right-4 top-14 sm:w-1/5 text-xl z-20 border-2 border-gray-100 border-opacity-20 lg:static lg:bg-transparent lg:border-0 lg:text-left lg:p-0 lg:w-1/3'>
           <Link to='/portfolio' onClick={displayMobileMenu}>
-            <p className='py-2'>Portfolio</p>
+            <p className='py-2 lg:bg-gray-700 lg:px-2 lg:w-min lg:rounded-lg lg:bg-opacity-30'>
+              Portfolio
+            </p>
           </Link>
-          <hr />
+          <hr className='lg:hidden' />
           <Link to='/' onClick={displayMobileMenu}>
-            <p className='py-2'>Coins</p>
+            <p className='py-2 lg:hidden'>Coins</p>
           </Link>
         </div>
       )}
