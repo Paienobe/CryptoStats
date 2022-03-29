@@ -38,7 +38,7 @@ function Header() {
         </div>
       )}
 
-      <button className='lg:hidden' onClick={displayMobileMenu}>
+      <button className='lg:hidden active:scale-75' onClick={displayMobileMenu}>
         <MenuIcon />
       </button>
 

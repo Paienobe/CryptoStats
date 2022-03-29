@@ -25,6 +25,7 @@ const AppProvider = ({ children }) => {
     datasets: [],
   })
   const [showMenu, setShowMenu] = useState(false)
+  const [portfolioItems, setPortfolioItems] = useState([])
 
   const url =
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d'
@@ -195,6 +196,7 @@ const AppProvider = ({ children }) => {
         bitcoinChartData,
         bitcoinVolumeChartData,
         showMenu,
+        portfolioItems,
         displayMobileMenu,
         setSearchInput,
         setIsSearching,
