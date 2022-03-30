@@ -151,8 +151,8 @@ const AppProvider = ({ children }) => {
   }
 
   const displayMobileMenu = () => {
-    if (!window.innerWidth >= 1024) {
-      setShowMenu(!showMenu)
+    if (window.innerWidth >= 1024) {
+      setShowMenu(true)
     } else {
       setShowMenu(!showMenu)
     }
