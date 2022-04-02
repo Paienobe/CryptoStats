@@ -26,6 +26,8 @@ const AppProvider = ({ children }) => {
   })
   const [showMenu, setShowMenu] = useState(false)
   const [portfolioItems, setPortfolioItems] = useState([])
+  const [showSelectionModal, setShowSelectionModal] = useState(false)
+  const [selectedCoin, setSelectedCoin] = useState('')
 
   const url =
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d'
@@ -35,7 +37,6 @@ const AppProvider = ({ children }) => {
     const response = await fetch(url)
     const data = await response.json()
     setMyData(data)
-    console.log(data)
     setLoading(false)
   }
 
@@ -45,7 +46,6 @@ const AppProvider = ({ children }) => {
     const data = await response.json()
     setInfoPageData(data)
     setLoading(false)
-    console.log(data)
   }
 
   const convertUnixTimeStampToReadableDate = (timeStamp) => {
@@ -94,7 +94,6 @@ const AppProvider = ({ children }) => {
         `https://api.coingecko.com/api/v3/search?query=${inputedValue}`
       )
       const data = await response.json()
-      console.log(data)
       setSearchedCoins(data)
     }
   }
@@ -158,6 +157,17 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const fetchDataForPortfolioPage = async (url, date, quantity) => {
+    const response = await fetch(url)
+    const chosenCoin = await response.json()
+    // const chosenCoin = data.find((coin) => {
+    //   return coin?.id === pickedCoin
+    // })
+    console.log(chosenCoin)
+    setPortfolioItems([...portfolioItems, { chosenCoin, date, quantity }])
+    console.log(portfolioItems)
+  }
+
   useEffect(() => {
     fetchAllCoins(url)
     fetchGlobalMarketData()
@@ -197,6 +207,9 @@ const AppProvider = ({ children }) => {
         bitcoinVolumeChartData,
         showMenu,
         portfolioItems,
+        showSelectionModal,
+        selectedCoin,
+        setShowSelectionModal,
         displayMobileMenu,
         setSearchInput,
         setIsSearching,
@@ -207,6 +220,8 @@ const AppProvider = ({ children }) => {
         showMoreCoins,
         fetchDailyBitCoinData,
         convertUnixTimeStampToReadableDate,
+        fetchDataForPortfolioPage,
+        setPortfolioItems,
       }}
     >
       {children}
