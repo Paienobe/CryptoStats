@@ -47,6 +47,15 @@ const PortfolioItem = ({ chosenCoin, date, quantity }) => {
                 %
               </span>
             </p>
+            <p className='lg:mr-4'>
+              Total Supply:{' '}
+              <span className='font-normal'>
+                {chosenCoin?.market_data?.total_supply
+                  ?.toFixed(2)
+                  ?.toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+            </p>
           </div>
         </div>
 
