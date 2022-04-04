@@ -120,11 +120,11 @@ const AppProvider = ({ children }) => {
     const data = await response.json()
 
     const timeOfPriceChange = data.prices.map((item) => {
-      return convertUnixTimeStampToReadableDate(item[0])
+      return new Date(item[0]).getMonth() + 1
     })
 
     const timeOfVolumeChange = data.total_volumes.map((item) => {
-      return convertUnixTimeStampToReadableDate(item[0])
+      return new Date(item[0]).getMonth() + 1
     })
 
     setBitcoinChartData({
@@ -143,7 +143,7 @@ const AppProvider = ({ children }) => {
     })
 
     setBitcoinVolumeChartData({
-      labels: timeOfPriceChange,
+      labels: timeOfVolumeChange,
       datasets: [
         {
           label: '',
