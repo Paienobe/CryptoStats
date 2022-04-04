@@ -3,6 +3,15 @@ import React, { useContext, useEffect, useState } from 'react'
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
+  const getDataFromLocalStorage = () => {
+    const myPortfolioData = localStorage.getItem('portfolioItems')
+    if (myPortfolioData) {
+      return JSON.parse(myPortfolioData)
+    } else {
+      return []
+    }
+  }
+
   const [loading, setLoading] = useState(false)
   const [myData, setMyData] = useState([])
   const [globalMarketData, setGlobalMarketData] = useState([])
@@ -25,7 +34,9 @@ const AppProvider = ({ children }) => {
     datasets: [],
   })
   const [showMenu, setShowMenu] = useState(false)
-  const [portfolioItems, setPortfolioItems] = useState([])
+  const [portfolioItems, setPortfolioItems] = useState(
+    getDataFromLocalStorage()
+  )
   const [showSelectionModal, setShowSelectionModal] = useState(false)
   const [selectedCoin, setSelectedCoin] = useState('')
 
@@ -160,9 +171,6 @@ const AppProvider = ({ children }) => {
   const fetchDataForPortfolioPage = async (url, date, quantity) => {
     const response = await fetch(url)
     const chosenCoin = await response.json()
-    // const chosenCoin = data.find((coin) => {
-    //   return coin?.id === pickedCoin
-    // })
     console.log(chosenCoin)
     setPortfolioItems([...portfolioItems, { chosenCoin, date, quantity }])
     console.log(portfolioItems)
@@ -189,6 +197,14 @@ const AppProvider = ({ children }) => {
       }
     })
   }, [])
+
+  const setLocalStorage = () => {
+    localStorage.setItem('portfolioItems', JSON.stringify(portfolioItems))
+  }
+
+  useEffect(() => {
+    setLocalStorage()
+  }, [portfolioItems])
 
   return (
     <AppContext.Provider
