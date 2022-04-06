@@ -13,7 +13,13 @@ function Header() {
     isSearching,
     showMenu,
     displayMobileMenu,
+    showCurrencyList,
+    setShowCurrencyList,
+    currency,
+    setCurrency,
   } = useGlobalContext()
+
+  const availableCurrencies = ['usd', 'eur', 'gbp', 'ngn']
 
   return (
     <header className=' p-4 bg-gray-900 text-gray-100 flex flex-wrap items-center justify-between lg:px-10 lg:max-w-screen-2xl m-auto fixed left-0 right-0 z-20'>
@@ -25,7 +31,7 @@ function Header() {
       </Link>
 
       {showMenu && (
-        <div className='text-right bg-gray-700 p-4 absolute right-4 top-14 sm:w-1/5 text-xl z-20 border-2 border-gray-100 border-opacity-20 lg:static lg:bg-transparent lg:border-0 lg:text-left lg:p-0 lg:w-1/3'>
+        <div className='text-right bg-gray-700 p-4 absolute right-4 top-14 sm:w-1/5 text-xl z-20 border-2 border-gray-100 border-opacity-20 lg:static lg:bg-transparent lg:border-0 lg:text-left lg:p-0 lg:pl-8 lg:w-1/3'>
           <Link to='/portfolio' onClick={displayMobileMenu}>
             <p className='py-2 hover:scale-110 lg:hover:bg-opacity-70 lg:bg-gray-700 lg:px-2 lg:w-min lg:rounded-lg lg:bg-opacity-30'>
               Portfolio
@@ -42,7 +48,7 @@ function Header() {
         <MenuIcon />
       </button>
 
-      <div className='flex items-center bg-gray-800 px-4 rounded-xl w-full mt-2 lg:w-1/2 lg:mt-0'>
+      <div className='flex items-center bg-gray-800 px-4 rounded-xl w-full mt-2 lg:w-2/5 lg:mt-0'>
         <SearchIcon className='text-green-500' />
         <input
           type='text'
@@ -52,6 +58,37 @@ function Header() {
           onChange={SearchForACoin}
         />
         {isSearching ? <SearchResults {...searchedCoins} /> : ''}
+      </div>
+
+      <div className='absolute top-4 right-20 lg:static'>
+        <div className=' py-1 p-3 bg-gray-700 bg-opacity-30 rounded-lg lg:px-8 relative lg:py-3'>
+          <button
+            type='button'
+            onClick={() => {
+              setShowCurrencyList(!showCurrencyList)
+            }}
+          >
+            {currency.toUpperCase()}
+          </button>
+          {showCurrencyList && (
+            <div className='absolute top-10 bg-gray-800 p-2 left-0 lg:top-14 lg:right-0 border border-white border-opacity-30'>
+              {availableCurrencies.map((currency, index) => {
+                return (
+                  <p
+                    className='lg:text-center hover:scale-105 cursor-pointer'
+                    key={index}
+                    onClick={(e) => {
+                      setCurrency(e.target.innerText.toLowerCase())
+                      setShowCurrencyList(false)
+                    }}
+                  >
+                    {currency.toUpperCase()}
+                  </p>
+                )
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </header>
   )

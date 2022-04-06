@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useGlobalContext } from '../context'
 import CoinCardSparkLineChart from './CoinCardSparkLineChart'
 
 function Coinrow({
@@ -17,6 +18,7 @@ function Coinrow({
   sparkline_in_7d,
   price_change_percentage_7d_in_currency,
 }) {
+  const { currencySymbol } = useGlobalContext()
   return (
     <Link
       to={`/coin/${id}`}
@@ -35,7 +37,7 @@ function Coinrow({
               <p>
                 Price:{' '}
                 <span className='font-light text-sm'>
-                  $
+                  {currencySymbol}
                   {current_price
                     ?.toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -45,7 +47,7 @@ function Coinrow({
               <p>
                 Market Cap:{' '}
                 <span className='font-light text-sm'>
-                  $
+                  {currencySymbol}
                   {market_cap?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>{' '}
               </p>
