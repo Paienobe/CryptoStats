@@ -17,6 +17,7 @@ function DetailedPage() {
     chartTime,
     fetchDataForChart,
     loading,
+    currency,
   } = useGlobalContext()
   const coinName = useParams().name.toLowerCase()
   const fullCoinDataUrl = `https://api.coingecko.com/api/v3/coins/${coinName}`
@@ -25,7 +26,7 @@ function DetailedPage() {
   useEffect(() => {
     fetchDataForInfoPage(fullCoinDataUrl)
     fetchDataForChart(chartApiUrl)
-  }, [chartTime, coinName])
+  }, [chartTime, coinName, currency])
 
   if (loading) {
     return <Loading />

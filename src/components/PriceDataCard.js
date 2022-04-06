@@ -1,14 +1,55 @@
 import React from 'react'
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import { useGlobalContext } from '../context'
 
 function PriceDataCard({ market_data }) {
+  const { currency, currencySymbol } = useGlobalContext()
+
+  console.log(currency)
+
+  const currentPriceInDifferentCurrencies = () => {
+    if (currency === 'usd') {
+      return market_data?.current_price?.usd
+    } else if (currency === 'eur') {
+      return market_data?.current_price?.eur
+    } else if (currency === 'gbp') {
+      return market_data?.current_price?.gbp
+    } else if (currency === 'ngn') {
+      return market_data?.current_price?.ngn
+    }
+  }
+
+  const allTimeHighInDifferentCurrencies = () => {
+    if (currency === 'usd') {
+      return market_data?.ath?.usd
+    } else if (currency === 'eur') {
+      return market_data?.ath?.eur
+    } else if (currency === 'gbp') {
+      return market_data?.ath?.gbp
+    } else if (currency === 'ngn') {
+      return market_data?.ath?.ngn
+    }
+  }
+
+  const allTimeLowInDifferentCurrencies = () => {
+    if (currency === 'usd') {
+      return market_data?.atl?.usd
+    } else if (currency === 'eur') {
+      return market_data?.atl?.eur
+    } else if (currency === 'gbp') {
+      return market_data?.atl?.gbp
+    } else if (currency === 'ngn') {
+      return market_data?.atl?.ngn
+    }
+  }
+
   return (
     <div className='bg-gray-700 p-4 rounded-lg my-6 lg:my-0'>
       <p className='text-center font-semibold text-2xl'>
-        $
-        {market_data?.current_price?.usd
-          .toString()
+        {currencySymbol}
+        {currentPriceInDifferentCurrencies()
+          ?.toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
         <span
           className={`text-lg font-normal ${
@@ -28,9 +69,9 @@ function PriceDataCard({ market_data }) {
             <ArrowDropUpIcon className='text-green-500' />
             All Time High:
           </span>{' '}
-          $
-          {market_data?.ath?.usd
-            .toString()
+          {currencySymbol}
+          {allTimeHighInDifferentCurrencies()
+            ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         </p>
 
@@ -41,9 +82,9 @@ function PriceDataCard({ market_data }) {
             <ArrowDropDownIcon className='text-red-500' />
             All Time Low:
           </span>{' '}
-          $
-          {market_data?.atl?.usd
-            .toString()
+          {currencySymbol}
+          {allTimeLowInDifferentCurrencies()
+            ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         </p>
 

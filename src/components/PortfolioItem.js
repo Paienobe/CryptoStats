@@ -2,7 +2,17 @@ import React from 'react'
 import { useGlobalContext } from '../context'
 
 const PortfolioItem = ({ chosenCoin, date, quantity }) => {
-  // const { id, image, current_price, price_change_24h, symbol } = chosenCoin
+  const { currency, currencySymbol } = useGlobalContext()
+  const currencyPrices =
+    currency === 'usd'
+      ? chosenCoin?.market_data?.current_price?.usd
+      : currency === 'eur'
+      ? chosenCoin?.market_data?.current_price?.eur
+      : currency === 'gbp'
+      ? chosenCoin?.market_data?.current_price?.gbp
+      : currency === 'ngn'
+      ? chosenCoin?.market_data?.current_price?.ngn
+      : ''
   return (
     <div className='mt-4 mb-8 bg-gray-800 p-4 rounded-xl lg:flex lg:items-center lg:w-full'>
       <div className='bg-gray-700 rounded-lg py-2 lg:w-1/6 h-full lg:mr-8 lg:py-4'>
@@ -23,8 +33,8 @@ const PortfolioItem = ({ chosenCoin, date, quantity }) => {
             <p className='lg:mr-4'>
               Current Price:{' '}
               <span className='text-green-500 font-normal'>
-                $
-                {chosenCoin?.market_data?.current_price?.usd
+                {currencySymbol}
+                {currencyPrices
                   ?.toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </span>
@@ -71,8 +81,8 @@ const PortfolioItem = ({ chosenCoin, date, quantity }) => {
             <p className='lg:mr-4'>
               Amount Value:{' '}
               <span className='text-green-500 font-normal'>
-                $
-                {(chosenCoin?.market_data?.current_price?.usd * quantity)
+                {currencySymbol}
+                {(currencyPrices * quantity)
                   .toFixed(2)
                   ?.toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}

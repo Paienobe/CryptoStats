@@ -3,12 +3,15 @@ import React, { useContext, useEffect, useState } from 'react'
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
-  const getDataFromLocalStorage = () => {
-    const myPortfolioData = localStorage.getItem('portfolioItems')
-    if (myPortfolioData) {
-      return JSON.parse(myPortfolioData)
+  const getDataFromLocalStorage = (
+    requiredDataName,
+    alternativeReturnedItem
+  ) => {
+    const myData = localStorage.getItem(requiredDataName)
+    if (myData) {
+      return JSON.parse(myData)
     } else {
-      return []
+      return alternativeReturnedItem
     }
   }
 
@@ -35,13 +38,27 @@ const AppProvider = ({ children }) => {
   })
   const [showMenu, setShowMenu] = useState(false)
   const [portfolioItems, setPortfolioItems] = useState(
-    getDataFromLocalStorage()
+    getDataFromLocalStorage('portfolioItems', [])
   )
   const [showSelectionModal, setShowSelectionModal] = useState(false)
   const [selectedCoin, setSelectedCoin] = useState('')
+  const [currency, setCurrency] = useState(
+    getDataFromLocalStorage('currencyComparison', 'usd')
+  )
+  const [showCurrencyList, setShowCurrencyList] = useState(false)
 
-  const url =
-    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d'
+  const currencySymbol =
+    currency === 'usd'
+      ? '$'
+      : currency === 'eur'
+      ? '€'
+      : currency === 'gbp'
+      ? '£'
+      : currency === 'ngn'
+      ? '₦'
+      : ''
+
+  const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
 
   const fetchAllCoins = async (url) => {
     setLoading(true)
@@ -77,7 +94,7 @@ const AppProvider = ({ children }) => {
       labels: timeOfPriceChange,
       datasets: [
         {
-          label: 'Price Changes in $',
+          label: `Price Changes ${currencySymbol}`,
           data: data.prices.map((data) => data[1]),
           backgroundColor: ['yellow'],
           borderColor: 'yellow',
@@ -148,8 +165,8 @@ const AppProvider = ({ children }) => {
         {
           label: '',
           data: data?.total_volumes?.map((data) => data[1]),
-          backgroundColor: ['#4188ff'],
-          borderColor: '#4188ff',
+          backgroundColor: ['#296d98'],
+          borderColor: '#296d98',
           borderWidth: 3,
           fill: true,
           display: false,
@@ -171,16 +188,14 @@ const AppProvider = ({ children }) => {
   const fetchDataForPortfolioPage = async (url, date, quantity) => {
     const response = await fetch(url)
     const chosenCoin = await response.json()
-    console.log(chosenCoin)
     setPortfolioItems([...portfolioItems, { chosenCoin, date, quantity }])
-    console.log(portfolioItems)
   }
 
   useEffect(() => {
     fetchAllCoins(url)
     fetchGlobalMarketData()
     fetchDailyBitCoinData()
-  }, [])
+  }, [currency])
 
   useEffect(() => {
     if (window.innerWidth >= 1024) {
@@ -200,11 +215,12 @@ const AppProvider = ({ children }) => {
 
   const setLocalStorage = () => {
     localStorage.setItem('portfolioItems', JSON.stringify(portfolioItems))
+    localStorage.setItem('currencyComparison', JSON.stringify(currency))
   }
 
   useEffect(() => {
     setLocalStorage()
-  }, [portfolioItems])
+  }, [portfolioItems, currency])
 
   return (
     <AppContext.Provider
@@ -225,6 +241,9 @@ const AppProvider = ({ children }) => {
         portfolioItems,
         showSelectionModal,
         selectedCoin,
+        showCurrencyList,
+        currency,
+        currencySymbol,
         setShowSelectionModal,
         displayMobileMenu,
         setSearchInput,
@@ -238,6 +257,8 @@ const AppProvider = ({ children }) => {
         convertUnixTimeStampToReadableDate,
         fetchDataForPortfolioPage,
         setPortfolioItems,
+        setShowCurrencyList,
+        setCurrency,
       }}
     >
       {children}

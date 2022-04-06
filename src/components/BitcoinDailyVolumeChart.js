@@ -5,8 +5,12 @@ import { useGlobalContext } from '../context'
 import millify from 'millify'
 
 function BitcoinDailyVolumeChart() {
-  const { bitcoinVolumeChartData, myData, convertUnixTimeStampToReadableDate } =
-    useGlobalContext()
+  const {
+    bitcoinVolumeChartData,
+    myData,
+    convertUnixTimeStampToReadableDate,
+    currencySymbol,
+  } = useGlobalContext()
   const bitcoinData = myData.find((item) => {
     return item.id === 'bitcoin'
   })
@@ -18,11 +22,12 @@ function BitcoinDailyVolumeChart() {
       <div className='absolute left-2 top-6 sm:left-8 sm:top-8 lg:text-lg'>
         <p>Volume 24h</p>
         <p className='lg:text-3xl'>
-          ${bitcoinVolume && millify(bitcoinVolume)}
+          {currencySymbol}
+          {bitcoinVolume && millify(bitcoinVolume)}
         </p>
         <p>{convertUnixTimeStampToReadableDate(time)}</p>
       </div>
-      <div className='bg-gray-800 px-1 py-2 sm:p-4 rounded-xl my-4 mb-0 lg:mb-4 lg:my-0'>
+      <div className='bg-gray-800 px-1 pr-3 py-2 sm:p-4 rounded-xl my-4 mb-0 lg:mb-4 lg:my-0'>
         <Bar
           data={bitcoinVolumeChartData}
           options={{
@@ -38,7 +43,7 @@ function BitcoinDailyVolumeChart() {
                   source: 'auto',
                   maxRotation: 0,
                   autoSkip: true,
-                  maxTicksLimit: 7,
+                  maxTicksLimit: 12,
                 },
                 grid: {
                   display: false,
