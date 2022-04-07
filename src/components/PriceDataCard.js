@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import { useGlobalContext } from '../context'
@@ -6,41 +6,36 @@ import { useGlobalContext } from '../context'
 function PriceDataCard({ market_data }) {
   const { currency, currencySymbol } = useGlobalContext()
 
-  console.log(currency)
-
-  const currentPriceInDifferentCurrencies = () => {
-    if (currency === 'usd') {
-      return market_data?.current_price?.usd
-    } else if (currency === 'eur') {
-      return market_data?.current_price?.eur
-    } else if (currency === 'gbp') {
-      return market_data?.current_price?.gbp
-    } else if (currency === 'ngn') {
-      return market_data?.current_price?.ngn
-    }
+  const currentPriceObject = {
+    usd: market_data?.current_price?.usd,
+    eur: market_data?.current_price?.eur,
+    gbp: market_data?.current_price?.gbp,
+    ngn: market_data?.current_price?.ngn,
   }
 
-  const allTimeHighInDifferentCurrencies = () => {
-    if (currency === 'usd') {
-      return market_data?.ath?.usd
-    } else if (currency === 'eur') {
-      return market_data?.ath?.eur
-    } else if (currency === 'gbp') {
-      return market_data?.ath?.gbp
-    } else if (currency === 'ngn') {
-      return market_data?.ath?.ngn
-    }
+  const allTimeHighObject = {
+    usd: market_data?.ath?.usd,
+    eur: market_data?.ath?.eur,
+    gbp: market_data?.ath?.gbp,
+    ngn: market_data?.ath?.ngn,
   }
 
-  const allTimeLowInDifferentCurrencies = () => {
+  const allTimeLowObject = {
+    usd: market_data?.atl?.usd,
+    eur: market_data?.atl?.eur,
+    gbp: market_data?.atl?.gbp,
+    ngn: market_data?.atl?.ngn,
+  }
+
+  const pickCurrency = (chosenObject) => {
     if (currency === 'usd') {
-      return market_data?.atl?.usd
+      return chosenObject.usd
     } else if (currency === 'eur') {
-      return market_data?.atl?.eur
+      return chosenObject.eur
     } else if (currency === 'gbp') {
-      return market_data?.atl?.gbp
+      return chosenObject.gbp
     } else if (currency === 'ngn') {
-      return market_data?.atl?.ngn
+      return chosenObject.ngn
     }
   }
 
@@ -48,7 +43,7 @@ function PriceDataCard({ market_data }) {
     <div className='bg-gray-700 p-4 rounded-lg my-6 lg:my-0'>
       <p className='text-center font-semibold text-2xl'>
         {currencySymbol}
-        {currentPriceInDifferentCurrencies()
+        {pickCurrency(currentPriceObject)
           ?.toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
         <span
@@ -70,7 +65,7 @@ function PriceDataCard({ market_data }) {
             All Time High:
           </span>{' '}
           {currencySymbol}
-          {allTimeHighInDifferentCurrencies()
+          {pickCurrency(allTimeHighObject)
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         </p>
@@ -83,7 +78,7 @@ function PriceDataCard({ market_data }) {
             All Time Low:
           </span>{' '}
           {currencySymbol}
-          {allTimeLowInDifferentCurrencies()
+          {pickCurrency(allTimeLowObject)
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         </p>
