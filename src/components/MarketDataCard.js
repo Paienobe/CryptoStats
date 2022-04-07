@@ -5,41 +5,36 @@ import { useGlobalContext } from '../context'
 function MarketDataCard({ market_data }) {
   const { currency, currencySymbol } = useGlobalContext()
 
-  console.log(market_data)
-
-  const marketCapInDifferentCurrencies = () => {
-    if (currency === 'usd') {
-      return market_data?.market_cap?.usd
-    } else if (currency === 'eur') {
-      return market_data?.market_cap?.eur
-    } else if (currency === 'gbp') {
-      return market_data?.market_cap?.gbp
-    } else if (currency === 'ngn') {
-      return market_data?.market_cap?.ngn
-    }
+  const marketCapObject = {
+    usd: market_data?.market_cap?.usd,
+    eur: market_data?.market_cap?.eur,
+    gbp: market_data?.market_cap?.gbp,
+    ngn: market_data?.market_cap?.ngn,
   }
 
-  const dilutedValuationInDifferentCurrencies = () => {
-    if (currency === 'usd') {
-      return market_data?.fully_diluted_valuation?.usd
-    } else if (currency === 'eur') {
-      return market_data?.fully_diluted_valuation?.eur
-    } else if (currency === 'gbp') {
-      return market_data?.fully_diluted_valuation?.gbp
-    } else if (currency === 'ngn') {
-      return market_data?.fully_diluted_valuation?.ngn
-    }
+  const dilutedValuationObject = {
+    usd: market_data?.fully_diluted_valuation?.usd,
+    eur: market_data?.fully_diluted_valuation?.eur,
+    gbp: market_data?.fully_diluted_valuation?.gbp,
+    ngn: market_data?.fully_diluted_valuation?.ngn,
   }
 
-  const totalVolumeInDifferentCurrencies = () => {
+  const totalVolumeObject = {
+    usd: market_data?.total_volume?.usd,
+    eur: market_data?.total_volume?.eur,
+    gbp: market_data?.total_volume?.gbp,
+    ngn: market_data?.total_volume?.ngn,
+  }
+
+  const pickCurrency = (chosenObject) => {
     if (currency === 'usd') {
-      return market_data?.total_volume?.usd
+      return chosenObject.usd
     } else if (currency === 'eur') {
-      return market_data?.total_volume?.eur
+      return chosenObject.eur
     } else if (currency === 'gbp') {
-      return market_data?.total_volume?.gbp
+      return chosenObject.gbp
     } else if (currency === 'ngn') {
-      return market_data?.total_volume?.ngn
+      return chosenObject.ngn
     }
   }
 
@@ -49,7 +44,7 @@ function MarketDataCard({ market_data }) {
         <LabelIcon className='text-green-500 mr-2' />
         <p>
           Market Cap: {currencySymbol}
-          {marketCapInDifferentCurrencies()
+          {pickCurrency(marketCapObject)
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         </p>
@@ -59,7 +54,7 @@ function MarketDataCard({ market_data }) {
         <LabelIcon className='text-green-500 mr-2' />
         <p>
           Fully Diluted Valuation: {currencySymbol}
-          {dilutedValuationInDifferentCurrencies()
+          {pickCurrency(dilutedValuationObject)
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         </p>
@@ -69,7 +64,7 @@ function MarketDataCard({ market_data }) {
         <LabelIcon className='text-green-500 mr-2' />
         <p>
           Trading Vol: {currencySymbol}
-          {totalVolumeInDifferentCurrencies()
+          {pickCurrency(totalVolumeObject)
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         </p>

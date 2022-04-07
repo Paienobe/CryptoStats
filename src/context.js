@@ -27,7 +27,7 @@ const AppProvider = ({ children }) => {
     labels: [],
     datasets: [],
   })
-  const [visibleCurrencies, setVisibleCurrencies] = useState(20)
+  const [visibleCurrencies, setVisibleCurrencies] = useState(10)
   const [bitcoinChartData, setBitcoinChartData] = useState({
     labels: [],
     datasets: [],
@@ -127,7 +127,7 @@ const AppProvider = ({ children }) => {
   }
 
   const showMoreCoins = () => {
-    setVisibleCurrencies(visibleCurrencies + 20)
+    setVisibleCurrencies(visibleCurrencies + 10)
   }
 
   const fetchDailyBitCoinData = async () => {

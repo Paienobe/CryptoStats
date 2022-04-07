@@ -4,7 +4,26 @@ import millify from 'millify'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 
 function GlobalMarketData() {
-  const { globalMarketData } = useGlobalContext()
+  const { globalMarketData, currency, currencySymbol } = useGlobalContext()
+
+  const globalMarketCapObject = {
+    usd: globalMarketData?.data?.total_market_cap.usd,
+    eur: globalMarketData?.data?.total_market_cap.eur,
+    gbp: globalMarketData?.data?.total_market_cap.gbp,
+    ngn: globalMarketData?.data?.total_market_cap.ngn,
+  }
+
+  const pickCurrency = (chosenObject) => {
+    if (currency === 'usd') {
+      return chosenObject.usd
+    } else if (currency === 'eur') {
+      return chosenObject.eur
+    } else if (currency === 'gbp') {
+      return chosenObject.gbp
+    } else if (currency === 'ngn') {
+      return chosenObject.ngn
+    }
+  }
 
   return (
     <div className='mt-24 p-2 mx-auto text-xs flex items-center justify-center lg:w-2/3'>
@@ -17,9 +36,10 @@ function GlobalMarketData() {
         </p>
 
         <p>
-          <span className='font-medium'>Total Market Cap:</span> $
+          <span className='font-medium'>Total Market Cap:</span>{' '}
+          {currencySymbol}
           {globalMarketData?.data?.total_market_cap.usd &&
-            millify(globalMarketData?.data?.total_market_cap.usd, {
+            millify(pickCurrency(globalMarketCapObject), {
               precision: 2,
             })}
           <span
