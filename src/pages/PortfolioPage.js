@@ -27,7 +27,13 @@ function PortfolioPage() {
             <p className='text-center text-2xl'>No items in portfolio</p>
           ) : (
             portfolioItems.map((item) => {
-              return <PortfolioItem key={item?.chosenCoin?.id} {...item} />
+              return (
+                <PortfolioItem
+                  key={item?.chosenCoin?.id}
+                  {...item}
+                  portfolioItems={portfolioItems}
+                />
+              )
             })
           )}
         </div>

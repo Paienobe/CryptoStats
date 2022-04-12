@@ -1,8 +1,10 @@
 import React from 'react'
 import { useGlobalContext } from '../context'
+import CloseIcon from '@material-ui/icons/Close'
 
-const PortfolioItem = ({ chosenCoin, date, quantity }) => {
-  const { currency, currencySymbol } = useGlobalContext()
+const PortfolioItem = ({ chosenCoin, date, quantity, portfolioItems }) => {
+  const { currency, currencySymbol, deleteItemFromPortfolio } =
+    useGlobalContext()
   const currencyPrices =
     currency === 'usd'
       ? chosenCoin?.market_data?.current_price?.usd
@@ -14,7 +16,10 @@ const PortfolioItem = ({ chosenCoin, date, quantity }) => {
       ? chosenCoin?.market_data?.current_price?.ngn
       : ''
   return (
-    <div className='mt-4 mb-8 bg-gray-800 p-4 rounded-xl lg:flex lg:items-center lg:w-full'>
+    <div
+      className='mt-4 mb-8 bg-gray-800 p-4 rounded-xl lg:flex lg:items-center lg:w-full relative'
+      id={chosenCoin?.id}
+    >
       <div className='bg-gray-700 rounded-lg py-2 lg:w-1/6 h-full lg:mr-8 lg:py-4'>
         <img
           src={chosenCoin?.image.large}
@@ -24,6 +29,12 @@ const PortfolioItem = ({ chosenCoin, date, quantity }) => {
         <p className='text-center capitalize mt-2 text-lg'>
           {chosenCoin?.id} ({chosenCoin?.symbol.toUpperCase()})
         </p>
+
+        <CloseIcon
+          fontSize='large'
+          className='text-red-500 absolute top-6 right-6'
+          onClick={deleteItemFromPortfolio}
+        />
       </div>
 
       <div>
