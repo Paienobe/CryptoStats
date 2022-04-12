@@ -61,10 +61,10 @@ const PortfolioItemModal = () => {
           />
           {isSearching && (
             <div className='absolute max-h-32 overflow-y-scroll bg-gray-800 bg-opacity-80 border-2 border-gray-100 right-0 p-2 w-3/5 text-sm'>
-              {searchedCoins?.coins?.map((coin) => (
+              {searchedCoins?.coins?.map((coin, index) => (
                 <p
+                  key={index}
                   className=' border border-transparent border-b-white py-2 cursor-pointer hover:text-gray-400'
-                  // key={coin?.id}
                   onClick={() => {
                     setSearchInput(coin?.id)
                     setIsSearching(false)

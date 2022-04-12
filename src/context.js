@@ -222,6 +222,15 @@ const AppProvider = ({ children }) => {
     setLocalStorage()
   }, [portfolioItems, currency])
 
+  const deleteItemFromPortfolio = (e) => {
+    const itemToBeDeleted =
+      e.target.parentElement.parentElement.parentElement.id
+    const newArray = portfolioItems.filter((item) => {
+      return item?.chosenCoin?.id !== itemToBeDeleted
+    })
+    setPortfolioItems(newArray)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -259,6 +268,7 @@ const AppProvider = ({ children }) => {
         setPortfolioItems,
         setShowCurrencyList,
         setCurrency,
+        deleteItemFromPortfolio,
       }}
     >
       {children}
