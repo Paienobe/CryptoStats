@@ -28,15 +28,7 @@ function PriceDataCard({ market_data }) {
   }
 
   const pickCurrency = (chosenObject) => {
-    if (currency === 'usd') {
-      return chosenObject.usd
-    } else if (currency === 'eur') {
-      return chosenObject.eur
-    } else if (currency === 'gbp') {
-      return chosenObject.gbp
-    } else if (currency === 'ngn') {
-      return chosenObject.ngn
-    }
+    return chosenObject[currency]
   }
 
   return (
